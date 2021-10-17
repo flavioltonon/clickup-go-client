@@ -94,10 +94,6 @@ func (c *Client) Do(request *Request) (*Response, error) {
 		return nil, err
 	}
 
-	if !response.isSuccess() {
-		return nil, response.Error()
-	}
-
 	return response, nil
 }
 
@@ -106,7 +102,6 @@ type Response struct {
 	RawResponse *http.Response
 
 	Body []byte
-	err  error
 }
 
 // NewResponse creates a new Response from a http.Response pointer, reading its body in the process.
@@ -144,11 +139,6 @@ func (r *Response) StatusCode() int {
 
 func (r *Response) isSuccess() bool {
 	return r.StatusCode() >= 200 && r.StatusCode() < 300
-}
-
-// Error returns the Response error
-func (r *Response) Error() error {
-	return r.err
 }
 
 // Decode JSON unmarshals the response body into a given value pointer
