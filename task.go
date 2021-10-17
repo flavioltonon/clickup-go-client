@@ -36,30 +36,165 @@ type Task struct {
 	URL          *string            `json:"url,omitempty"`
 }
 
-func (t *Task) GetID() string                       { return dereferenceString(t.ID) }
-func (t *Task) GetCustomID() string                 { return dereferenceString(t.CustomID) }
-func (t *Task) GetName() string                     { return dereferenceString(t.Name) }
-func (t *Task) GetTextContext() string              { return dereferenceString(t.TextContext) }
-func (t *Task) GetDescription() string              { return dereferenceString(t.Description) }
-func (t *Task) GetStatus() *TaskStatus              { return t.Status }
-func (t *Task) GetOrderIndex() string               { return dereferenceString(t.OrderIndex) }
-func (t *Task) GetDateCreated() string              { return dereferenceString(t.DateCreated) }
-func (t *Task) GetDateClosed() string               { return dereferenceString(t.DateClosed) }
-func (t *Task) GetCreator() *TaskCreator            { return t.Creator }
-func (t *Task) GetAssignees() []struct{}            { return t.Assignees }
-func (t *Task) GetChecklists() []struct{}           { return t.Checklists }
-func (t *Task) GetTags() []struct{}                 { return t.Tags }
-func (t *Task) GetParent() string                   { return dereferenceString(t.Parent) }
-func (t *Task) GetPriority() string                 { return dereferenceString(t.Priority) }
-func (t *Task) GetDueDate() string                  { return dereferenceString(t.DueDate) }
-func (t *Task) GetStartDate() string                { return dereferenceString(t.StartDate) }
-func (t *Task) GetTimeEstimate() string             { return dereferenceString(t.TimeEstimate) }
-func (t *Task) GetTimeSpent() int                   { return dereferenceInt(t.TimeSpent) }
+func (t *Task) GetID() string {
+	if t == nil || t.ID == nil {
+		return ""
+	}
+
+	return *t.ID
+}
+
+func (t *Task) GetCustomID() string {
+	if t == nil || t.CustomID == nil {
+		return ""
+	}
+
+	return *t.CustomID
+}
+
+func (t *Task) GetName() string {
+	if t == nil || t.Name == nil {
+		return ""
+	}
+
+	return *t.Name
+}
+
+func (t *Task) GetTextContext() string {
+	if t == nil || t.TextContext == nil {
+		return ""
+	}
+
+	return *t.TextContext
+}
+
+func (t *Task) GetDescription() string {
+	if t == nil || t.Description == nil {
+		return ""
+	}
+
+	return *t.Description
+}
+
+func (t *Task) GetStatus() *TaskStatus {
+	if t == nil {
+		return nil
+	}
+
+	return t.Status
+}
+func (t *Task) GetOrderIndex() string {
+	if t == nil || t.OrderIndex == nil {
+		return ""
+	}
+
+	return *t.OrderIndex
+}
+
+func (t *Task) GetDateCreated() string {
+	if t == nil || t.DateCreated == nil {
+		return ""
+	}
+
+	return *t.DateCreated
+}
+
+func (t *Task) GetDateClosed() string {
+	if t == nil || t.DateClosed == nil {
+		return ""
+	}
+
+	return *t.DateClosed
+}
+
+func (t *Task) GetCreator() *TaskCreator {
+	if t == nil {
+		return nil
+	}
+
+	return t.Creator
+}
+func (t *Task) GetAssignees() []struct{}  { return t.Assignees }
+func (t *Task) GetChecklists() []struct{} { return t.Checklists }
+func (t *Task) GetTags() []struct{}       { return t.Tags }
+
+func (t *Task) GetParent() string {
+	if t == nil || t.Parent == nil {
+		return ""
+	}
+
+	return *t.Parent
+}
+
+func (t *Task) GetPriority() string {
+	if t == nil || t.Priority == nil {
+		return ""
+	}
+
+	return *t.Priority
+}
+
+func (t *Task) GetDueDate() string {
+	if t == nil || t.DueDate == nil {
+		return ""
+	}
+
+	return *t.DueDate
+}
+
+func (t *Task) GetStartDate() string {
+	if t == nil || t.StartDate == nil {
+		return ""
+	}
+
+	return *t.StartDate
+}
+
+func (t *Task) GetTimeEstimate() string {
+	if t == nil || t.TimeEstimate == nil {
+		return ""
+	}
+
+	return *t.TimeEstimate
+}
+
+func (t *Task) GetTimeSpent() int {
+	if t == nil || t.TimeSpent == nil {
+		return 0
+	}
+
+	return *t.TimeSpent
+}
+
 func (t *Task) GetCustomFields() []*TaskCustomField { return t.CustomFields }
-func (t *Task) GetList() *List                      { return t.List }
-func (t *Task) GetFolder() *Folder                  { return t.Folder }
-func (t *Task) GetSpace() *Space                    { return t.Space }
-func (t *Task) GetURL() string                      { return dereferenceString(t.URL) }
+func (t *Task) GetList() *List {
+	if t == nil {
+		return nil
+	}
+
+	return t.List
+}
+func (t *Task) GetFolder() *Folder {
+	if t == nil {
+		return nil
+	}
+
+	return t.Folder
+}
+func (t *Task) GetSpace() *Space {
+	if t == nil {
+		return nil
+	}
+
+	return t.Space
+}
+func (t *Task) GetURL() string {
+	if t == nil || t.URL == nil {
+		return ""
+	}
+
+	return *t.URL
+}
 
 // TaskStatus is the status of a Task
 type TaskStatus struct {
@@ -69,10 +204,37 @@ type TaskStatus struct {
 	Type       *string `json:"type,omitempty"`
 }
 
-func (s *TaskStatus) GetStatus() string  { return dereferenceString(s.Status) }
-func (s *TaskStatus) GetColor() string   { return dereferenceString(s.Color) }
-func (s *TaskStatus) GetOrderIndex() int { return dereferenceInt(s.OrderIndex) }
-func (s *TaskStatus) GetType() string    { return dereferenceString(s.Type) }
+func (s *TaskStatus) GetStatus() string {
+	if s == nil || s.Status == nil {
+		return ""
+	}
+
+	return *s.Status
+}
+
+func (s *TaskStatus) GetColor() string {
+	if s == nil || s.Color == nil {
+		return ""
+	}
+
+	return *s.Color
+}
+
+func (s *TaskStatus) GetOrderIndex() int {
+	if s == nil || s.OrderIndex == nil {
+		return 0
+	}
+
+	return *s.OrderIndex
+}
+
+func (s *TaskStatus) GetType() string {
+	if s == nil || s.Type == nil {
+		return ""
+	}
+
+	return *s.Type
+}
 
 // TaskCreator is the data about the creator of a Task
 type TaskCreator struct {
@@ -82,10 +244,37 @@ type TaskCreator struct {
 	ProfilePicture *string `json:"profilePicture,omitempty"`
 }
 
-func (c *TaskCreator) GetID() int                { return dereferenceInt(c.ID) }
-func (c *TaskCreator) GetUsername() string       { return dereferenceString(c.Username) }
-func (c *TaskCreator) GetColor() string          { return dereferenceString(c.Color) }
-func (c *TaskCreator) GetProfilePicture() string { return dereferenceString(c.ProfilePicture) }
+func (c *TaskCreator) GetID() int {
+	if c == nil || c.ID == nil {
+		return 0
+	}
+
+	return *c.ID
+}
+
+func (c *TaskCreator) GetUsername() string {
+	if c == nil || c.Username == nil {
+		return ""
+	}
+
+	return *c.Username
+}
+
+func (c *TaskCreator) GetColor() string {
+	if c == nil || c.Color == nil {
+		return ""
+	}
+
+	return *c.Color
+}
+
+func (c *TaskCreator) GetProfilePicture() string {
+	if c == nil || c.ProfilePicture == nil {
+		return ""
+	}
+
+	return *c.ProfilePicture
+}
 
 // TaskCustomField is a customized field that can be added to Tasks
 type TaskCustomField struct {
@@ -99,14 +288,68 @@ type TaskCustomField struct {
 	Required       *bool                      `json:"required,omitempty"`
 }
 
-func (f *TaskCustomField) GetID() string                             { return dereferenceString(f.ID) }
-func (f *TaskCustomField) GetName() string                           { return dereferenceString(f.Name) }
-func (f *TaskCustomField) GetType() string                           { return dereferenceString(f.Type) }
-func (f *TaskCustomField) GetTypeConfig() *TaskCustomFieldTypeConfig { return f.TypeConfig }
-func (f *TaskCustomField) GetValue() string                          { return dereferenceString(f.Value) }
-func (f *TaskCustomField) GetDateCreated() string                    { return dereferenceString(f.DateCreated) }
-func (f *TaskCustomField) GetHideFromGuests() bool                   { return dereferenceBool(f.HideFromGuests) }
-func (f *TaskCustomField) GetRequired() bool                         { return dereferenceBool(f.Required) }
+func (f *TaskCustomField) GetID() string {
+	if f == nil || f.ID == nil {
+		return ""
+	}
+
+	return *f.ID
+}
+
+func (f *TaskCustomField) GetName() string {
+	if f == nil || f.Name == nil {
+		return ""
+	}
+
+	return *f.Name
+}
+
+func (f *TaskCustomField) GetType() string {
+	if f == nil || f.Type == nil {
+		return ""
+	}
+
+	return *f.Type
+}
+
+func (f *TaskCustomField) GetTypeConfig() *TaskCustomFieldTypeConfig {
+	if f == nil {
+		return nil
+	}
+
+	return f.TypeConfig
+}
+
+func (f *TaskCustomField) GetValue() string {
+	if f == nil || f.Value == nil {
+		return ""
+	}
+
+	return *f.Value
+}
+
+func (f *TaskCustomField) GetDateCreated() string {
+	if f == nil || f.DateCreated == nil {
+		return ""
+	}
+
+	return *f.DateCreated
+}
+
+func (f *TaskCustomField) GetHideFromGuests() bool {
+	if f == nil || f.HideFromGuests == nil {
+		return false
+	}
+
+	return *f.HideFromGuests
+}
+func (f *TaskCustomField) GetRequired() bool {
+	if f == nil || f.Required == nil {
+		return false
+	}
+
+	return *f.Required
+}
 
 // TaskCustomFieldTypeConfig are special configs for TaskCustomFields
 type TaskCustomFieldTypeConfig struct {
@@ -114,28 +357,56 @@ type TaskCustomFieldTypeConfig struct {
 	IncludeTeamMembers *bool `json:"include_team_members,omitempty"`
 }
 
-func (c *TaskCustomFieldTypeConfig) GetIncludeGuests() bool { return dereferenceBool(c.IncludeGuests) }
+func (c *TaskCustomFieldTypeConfig) GetIncludeGuests() bool {
+	if c == nil || c.IncludeGuests == nil {
+		return false
+	}
+
+	return *c.IncludeGuests
+}
 func (c *TaskCustomFieldTypeConfig) GetIncludeTeamMembers() bool {
-	return dereferenceBool(c.IncludeTeamMembers)
+	if c == nil || c.IncludeTeamMembers == nil {
+		return false
+	}
+
+	return *c.IncludeTeamMembers
 }
 
 type List struct {
 	ID *string `json:"id,omitempty"`
 }
 
-func (l *List) GetID() string { return dereferenceString(l.ID) }
+func (l *List) GetID() string {
+	if l == nil || l.ID == nil {
+		return ""
+	}
+
+	return *l.ID
+}
 
 type Folder struct {
 	ID *string `json:"id,omitempty"`
 }
 
-func (f *Folder) GetID() string { return dereferenceString(f.ID) }
+func (f *Folder) GetID() string {
+	if f == nil || f.ID == nil {
+		return ""
+	}
+
+	return *f.ID
+}
 
 type Space struct {
 	ID *string `json:"id,omitempty"`
 }
 
-func (s *Space) GetID() string { return dereferenceString(s.ID) }
+func (s *Space) GetID() string {
+	if s == nil || s.ID == nil {
+		return ""
+	}
+
+	return *s.ID
+}
 
 // GetTask calls ClickUp tasks API to fetch a Task with a given ID
 func (s *TasksService) GetTask(taskID string) (*Task, error) {

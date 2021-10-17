@@ -27,18 +27,101 @@ type Webhook struct {
 	Secret   *string            `json:"secret,omitempty"`
 }
 
-func (w *Webhook) GetID() string                 { return dereferenceString(w.ID) }
-func (w *Webhook) GetUserID() int                { return dereferenceInt(w.UserID) }
-func (w *Webhook) GetTeamID() int                { return dereferenceInt(w.TeamID) }
-func (w *Webhook) GetEndpoint() string           { return dereferenceString(w.Endpoint) }
-func (w *Webhook) GetClientID() string           { return dereferenceString(w.ClientID) }
-func (w *Webhook) GetEvents() []WebhookEventKind { return w.Events }
-func (w *Webhook) GetTaskID() string             { return dereferenceString(w.TaskID) }
-func (w *Webhook) GetListID() string             { return dereferenceString(w.ListID) }
-func (w *Webhook) GetFolderID() string           { return dereferenceString(w.FolderID) }
-func (w *Webhook) GetSpaceID() string            { return dereferenceString(w.SpaceID) }
-func (w *Webhook) GetHealth() *WebhookHealth     { return w.Health }
-func (w *Webhook) GetSecret() string             { return dereferenceString(w.Secret) }
+func (w *Webhook) GetID() string {
+	if w == nil || w.ID == nil {
+		return ""
+	}
+
+	return *w.ID
+}
+
+func (w *Webhook) GetUserID() int {
+	if w == nil || w.UserID == nil {
+		return 0
+	}
+
+	return *w.UserID
+}
+
+func (w *Webhook) GetTeamID() int {
+	if w == nil || w.TeamID == nil {
+		return 0
+	}
+
+	return *w.TeamID
+}
+
+func (w *Webhook) GetEndpoint() string {
+	if w == nil || w.Endpoint == nil {
+		return ""
+	}
+
+	return *w.Endpoint
+}
+
+func (w *Webhook) GetClientID() string {
+	if w == nil || w.ClientID == nil {
+		return ""
+	}
+
+	return *w.ClientID
+}
+
+func (w *Webhook) GetEvents() []WebhookEventKind {
+	if w == nil {
+		return nil
+	}
+
+	return w.Events
+}
+
+func (w *Webhook) GetTaskID() string {
+	if w == nil || w.TaskID == nil {
+		return ""
+	}
+
+	return *w.TaskID
+}
+
+func (w *Webhook) GetListID() string {
+	if w == nil || w.ListID == nil {
+		return ""
+	}
+
+	return *w.ListID
+}
+
+func (w *Webhook) GetFolderID() string {
+	if w == nil || w.FolderID == nil {
+		return ""
+	}
+
+	return *w.FolderID
+}
+
+func (w *Webhook) GetSpaceID() string {
+	if w == nil || w.SpaceID == nil {
+		return ""
+	}
+
+	return *w.SpaceID
+}
+
+func (w *Webhook) GetHealth() *WebhookHealth {
+	if w == nil {
+		return nil
+	}
+
+	return w.Health
+}
+
+func (w *Webhook) GetSecret() string {
+	if w == nil || w.Secret == nil {
+		return ""
+	}
+
+	return *w.Secret
+}
 
 // WebhookEventKind is a webhook event kind
 type WebhookEventKind string
@@ -82,8 +165,21 @@ type WebhookHealth struct {
 	FailCount *int    `json:"fail_count,omitempty"`
 }
 
-func (h *WebhookHealth) GetStatus() string { return dereferenceString(h.Status) }
-func (h *WebhookHealth) GetFailCount() int { return dereferenceInt(h.FailCount) }
+func (h *WebhookHealth) GetStatus() string {
+	if h == nil || h.Status == nil {
+		return ""
+	}
+
+	return *h.Status
+}
+
+func (h *WebhookHealth) GetFailCount() int {
+	if h == nil || h.FailCount == nil {
+		return 0
+	}
+
+	return *h.FailCount
+}
 
 // HistoryItem is a item in the WebhookEvent history
 type HistoryItem struct {
@@ -99,23 +195,98 @@ type HistoryItem struct {
 	After    *HistoryItemStatus `json:"after,omitempty"`
 }
 
-func (i *HistoryItem) GetID() string                 { return dereferenceString(i.ID) }
-func (i *HistoryItem) GetType() int                  { return dereferenceInt(i.Type) }
-func (i *HistoryItem) GetDate() string               { return dereferenceString(i.Date) }
-func (i *HistoryItem) GetField() string              { return dereferenceString(i.Field) }
-func (i *HistoryItem) GetParentID() string           { return dereferenceString(i.ParentID) }
-func (i *HistoryItem) GetData() *HistoryItemData     { return i.Data }
-func (i *HistoryItem) GetSource() string             { return dereferenceString(i.Source) }
-func (i *HistoryItem) GetUser() *User                { return i.User }
-func (i *HistoryItem) GetBefore() *HistoryItemStatus { return i.Before }
-func (i *HistoryItem) GetAfter() *HistoryItemStatus  { return i.After }
+func (i *HistoryItem) GetID() string {
+	if i == nil || i.ID == nil {
+		return ""
+	}
+
+	return *i.ID
+}
+
+func (i *HistoryItem) GetType() int {
+	if i == nil || i.Type == nil {
+		return 0
+	}
+
+	return *i.Type
+}
+
+func (i *HistoryItem) GetDate() string {
+	if i == nil || i.Date == nil {
+		return ""
+	}
+
+	return *i.Date
+}
+
+func (i *HistoryItem) GetField() string {
+	if i == nil || i.Field == nil {
+		return ""
+	}
+
+	return *i.Field
+}
+
+func (i *HistoryItem) GetParentID() string {
+	if i == nil || i.ParentID == nil {
+		return ""
+	}
+
+	return *i.ParentID
+}
+
+func (i *HistoryItem) GetData() *HistoryItemData {
+	if i == nil {
+		return nil
+	}
+
+	return i.Data
+}
+
+func (i *HistoryItem) GetSource() string {
+	if i == nil || i.Source == nil {
+		return ""
+	}
+
+	return *i.Source
+}
+
+func (i *HistoryItem) GetUser() *User {
+	if i == nil {
+		return nil
+	}
+
+	return i.User
+}
+
+func (i *HistoryItem) GetBefore() *HistoryItemStatus {
+	if i == nil {
+		return nil
+	}
+
+	return i.Before
+}
+
+func (i *HistoryItem) GetAfter() *HistoryItemStatus {
+	if i == nil {
+		return nil
+	}
+
+	return i.After
+}
 
 // HistoryItemData holds additional data about a HistoryItem
 type HistoryItemData struct {
 	StatusType *string `json:"status_type,omitempty"`
 }
 
-func (s *HistoryItemData) GetStatusType() string { return dereferenceString(s.StatusType) }
+func (s *HistoryItemData) GetStatusType() string {
+	if s == nil || s.StatusType == nil {
+		return ""
+	}
+
+	return *s.StatusType
+}
 
 // HistoryItemStatus holds data about the status of HistoryItem
 type HistoryItemStatus struct {
@@ -125,23 +296,77 @@ type HistoryItemStatus struct {
 	Type       *string `json:"type,omitempty"`
 }
 
-func (s *HistoryItemStatus) GetStatus() string  { return dereferenceString(s.Status) }
-func (s *HistoryItemStatus) GetColor() string   { return dereferenceString(s.Color) }
-func (s *HistoryItemStatus) GetOrderIndex() int { return dereferenceInt(s.OrderIndex) }
-func (s *HistoryItemStatus) GetType() string    { return dereferenceString(s.Type) }
+func (s *HistoryItemStatus) GetStatus() string {
+	if s == nil || s.Status == nil {
+		return ""
+	}
+
+	return *s.Status
+}
+
+func (s *HistoryItemStatus) GetColor() string {
+	if s == nil || s.Color == nil {
+		return ""
+	}
+
+	return *s.Color
+}
+
+func (s *HistoryItemStatus) GetOrderIndex() int {
+	if s == nil || s.OrderIndex == nil {
+		return 0
+	}
+
+	return *s.OrderIndex
+}
+
+func (s *HistoryItemStatus) GetType() string {
+	if s == nil || s.Type == nil {
+		return ""
+	}
+
+	return *s.Type
+}
 
 // WebhookEvent is an event sent by ClickUp to webhooks
 type WebhookEvent struct {
-	WebhookID    *string          `json:"webhook_id,omitempty"`
-	Event        WebhookEventKind `json:"event,omitempty"`
-	TaskID       *string          `json:"task_id,omitempty"`
-	HistoryItems []*HistoryItem   `json:"history_items,omitempty"`
+	WebhookID    *string           `json:"webhook_id,omitempty"`
+	Event        *WebhookEventKind `json:"event,omitempty"`
+	TaskID       *string           `json:"task_id,omitempty"`
+	HistoryItems []*HistoryItem    `json:"history_items,omitempty"`
 }
 
-func (e *WebhookEvent) GetWebhookID() string            { return dereferenceString(e.WebhookID) }
-func (e *WebhookEvent) GetEvent() WebhookEventKind      { return e.Event }
-func (e *WebhookEvent) GetTaskID() string               { return dereferenceString(e.TaskID) }
-func (e *WebhookEvent) GetHistoryItems() []*HistoryItem { return e.HistoryItems }
+func (e *WebhookEvent) GetWebhookID() string {
+	if e == nil || e.WebhookID == nil {
+		return ""
+	}
+
+	return *e.WebhookID
+}
+
+func (e *WebhookEvent) GetEvent() WebhookEventKind {
+	if e == nil || e.Event == nil {
+		return ""
+	}
+
+	return *e.Event
+}
+
+func (e *WebhookEvent) GetTaskID() string {
+	if e == nil || e.TaskID == nil {
+		return ""
+	}
+
+	return *e.TaskID
+}
+
+func (e *WebhookEvent) GetHistoryItems() []*HistoryItem {
+	if e == nil {
+		return nil
+	}
+
+	return e.HistoryItems
+}
 
 // ParseWebhookEvent validates the signature of a request from ClickUp's webhook and decodes its body into a
 // WebhookEvent, if it is valid.
