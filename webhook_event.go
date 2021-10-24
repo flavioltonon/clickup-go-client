@@ -133,16 +133,16 @@ const (
 
 // HistoryItem is a item in the WebhookEvent history
 type HistoryItem struct {
-	ID       *string            `json:"id,omitempty"`
-	Type     *int               `json:"type,omitempty"`
-	Date     *string            `json:"date,omitempty"`
-	Field    *string            `json:"field,omitempty"`
-	ParentID *string            `json:"parent_id,omitempty"`
-	Data     *HistoryItemData   `json:"data,omitempty"`
-	Source   *string            `json:"source,omitempty"`
-	User     *User              `json:"user,omitempty"`
-	Before   *HistoryItemStatus `json:"before,omitempty"`
-	After    *HistoryItemStatus `json:"after,omitempty"`
+	ID       *string          `json:"id,omitempty"`
+	Type     *int             `json:"type,omitempty"`
+	Date     *string          `json:"date,omitempty"`
+	Field    *string          `json:"field,omitempty"`
+	ParentID *string          `json:"parent_id,omitempty"`
+	Data     *HistoryItemData `json:"data,omitempty"`
+	Source   *string          `json:"source,omitempty"`
+	User     *User            `json:"user,omitempty"`
+	Before   *Status          `json:"before,omitempty"`
+	After    *Status          `json:"after,omitempty"`
 }
 
 func (i *HistoryItem) GetID() string {
@@ -209,7 +209,7 @@ func (i *HistoryItem) GetUser() *User {
 	return i.User
 }
 
-func (i *HistoryItem) GetBefore() *HistoryItemStatus {
+func (i *HistoryItem) GetBefore() *Status {
 	if i == nil {
 		return nil
 	}
@@ -217,7 +217,7 @@ func (i *HistoryItem) GetBefore() *HistoryItemStatus {
 	return i.Before
 }
 
-func (i *HistoryItem) GetAfter() *HistoryItemStatus {
+func (i *HistoryItem) GetAfter() *Status {
 	if i == nil {
 		return nil
 	}
@@ -236,44 +236,4 @@ func (s *HistoryItemData) GetStatusType() string {
 	}
 
 	return *s.StatusType
-}
-
-// HistoryItemStatus holds data about the status of HistoryItem
-type HistoryItemStatus struct {
-	Status     *string `json:"status,omitempty"`
-	Color      *string `json:"color,omitempty"`
-	OrderIndex *int    `json:"orderindex,omitempty"`
-	Type       *string `json:"type,omitempty"`
-}
-
-func (s *HistoryItemStatus) GetStatus() string {
-	if s == nil || s.Status == nil {
-		return ""
-	}
-
-	return *s.Status
-}
-
-func (s *HistoryItemStatus) GetColor() string {
-	if s == nil || s.Color == nil {
-		return ""
-	}
-
-	return *s.Color
-}
-
-func (s *HistoryItemStatus) GetOrderIndex() int {
-	if s == nil || s.OrderIndex == nil {
-		return 0
-	}
-
-	return *s.OrderIndex
-}
-
-func (s *HistoryItemStatus) GetType() string {
-	if s == nil || s.Type == nil {
-		return ""
-	}
-
-	return *s.Type
 }

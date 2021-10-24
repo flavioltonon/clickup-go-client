@@ -153,7 +153,7 @@ func TestTeam_GetAvatar(t *testing.T) {
 func TestTeam_GetMembers(t *testing.T) {
 	intValue := 1
 
-	membersValue := []*TeamMember{
+	membersValue := []*Member{
 		{
 			User: &User{
 				ID: &intValue,
@@ -168,7 +168,7 @@ func TestTeam_GetMembers(t *testing.T) {
 	tests := []struct {
 		name   string
 		fields fields
-		want   []*TeamMember
+		want   []*Member
 	}{
 		{
 			name:   "If Team is nil, GetMembers should return its zero value",
@@ -190,86 +190,6 @@ func TestTeam_GetMembers(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			assert.Equal(t, tt.want, tt.fields.Team.GetMembers())
-		})
-	}
-}
-
-func TestTeamMember_GetUser(t *testing.T) {
-	intValue := 1
-
-	userValue := &User{
-		ID: &intValue,
-	}
-
-	type fields struct {
-		TeamMember *TeamMember
-	}
-
-	tests := []struct {
-		name   string
-		fields fields
-		want   *User
-	}{
-		{
-			name:   "If TeamMember is nil, GetUser should return its zero value",
-			fields: fields{TeamMember: nil},
-			want:   nil,
-		},
-		{
-			name:   "If User is nil, GetUser should return its zero value",
-			fields: fields{TeamMember: &TeamMember{User: nil}},
-			want:   nil,
-		},
-		{
-			name:   "If User has a valid value, GetUser should return it",
-			fields: fields{TeamMember: &TeamMember{User: userValue}},
-			want:   userValue,
-		},
-	}
-
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			assert.Equal(t, tt.want, tt.fields.TeamMember.GetUser())
-		})
-	}
-}
-
-func TestTeamMember_GetInvitedBy(t *testing.T) {
-	intValue := 1
-
-	userValue := &User{
-		ID: &intValue,
-	}
-
-	type fields struct {
-		TeamMember *TeamMember
-	}
-
-	tests := []struct {
-		name   string
-		fields fields
-		want   *User
-	}{
-		{
-			name:   "If TeamMember is nil, GetInvitedBy should return its zero value",
-			fields: fields{TeamMember: nil},
-			want:   nil,
-		},
-		{
-			name:   "If InvitedBy is nil, GetInvitedBy should return its zero value",
-			fields: fields{TeamMember: &TeamMember{InvitedBy: nil}},
-			want:   nil,
-		},
-		{
-			name:   "If InvitedBy has a valid value, GetInvitedBy should return it",
-			fields: fields{TeamMember: &TeamMember{InvitedBy: userValue}},
-			want:   userValue,
-		},
-	}
-
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			assert.Equal(t, tt.want, tt.fields.TeamMember.GetInvitedBy())
 		})
 	}
 }

@@ -457,7 +457,7 @@ func TestHistoryItem_GetUser(t *testing.T) {
 func TestHistoryItem_GetBefore(t *testing.T) {
 	stringValue := "1"
 
-	historyItemStatusValue := HistoryItemStatus{
+	historyItemStatusValue := Status{
 		Status: &stringValue,
 	}
 
@@ -468,7 +468,7 @@ func TestHistoryItem_GetBefore(t *testing.T) {
 	tests := []struct {
 		name   string
 		fields fields
-		want   *HistoryItemStatus
+		want   *Status
 	}{
 		{
 			name:   "If HistoryItem is nil, GetBefore should return its zero value",
@@ -497,7 +497,7 @@ func TestHistoryItem_GetBefore(t *testing.T) {
 func TestHistoryItem_GetAfter(t *testing.T) {
 	stringValue := "1"
 
-	historyItemStatusValue := HistoryItemStatus{
+	historyItemStatusValue := Status{
 		Status: &stringValue,
 	}
 
@@ -508,7 +508,7 @@ func TestHistoryItem_GetAfter(t *testing.T) {
 	tests := []struct {
 		name   string
 		fields fields
-		want   *HistoryItemStatus
+		want   *Status
 	}{
 		{
 			name:   "If HistoryItem is nil, GetAfter should return its zero value",
@@ -566,150 +566,6 @@ func TestHistoryItemData_GetStatusType(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			assert.Equal(t, tt.want, tt.fields.HistoryItemData.GetStatusType())
-		})
-	}
-}
-
-func TestHistoryItemStatus_GetStatus(t *testing.T) {
-	stringValue := "1"
-
-	type fields struct {
-		HistoryItemStatus *HistoryItemStatus
-	}
-
-	tests := []struct {
-		name   string
-		fields fields
-		want   string
-	}{
-		{
-			name:   "If HistoryItemStatus is nil, GetStatus should return its zero value",
-			fields: fields{HistoryItemStatus: nil},
-			want:   "",
-		},
-		{
-			name:   "If Status is nil, GetStatus should return its zero value",
-			fields: fields{HistoryItemStatus: &HistoryItemStatus{Status: nil}},
-			want:   "",
-		},
-		{
-			name:   "If Status has a valid value, GetStatus should return it",
-			fields: fields{HistoryItemStatus: &HistoryItemStatus{Status: &stringValue}},
-			want:   stringValue,
-		},
-	}
-
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			assert.Equal(t, tt.want, tt.fields.HistoryItemStatus.GetStatus())
-		})
-	}
-}
-
-func TestHistoryItemStatus_GetColor(t *testing.T) {
-	stringValue := "1"
-
-	type fields struct {
-		HistoryItemStatus *HistoryItemStatus
-	}
-
-	tests := []struct {
-		name   string
-		fields fields
-		want   string
-	}{
-		{
-			name:   "If HistoryItemStatus is nil, GetColor should return its zero value",
-			fields: fields{HistoryItemStatus: nil},
-			want:   "",
-		},
-		{
-			name:   "If Color is nil, GetColor should return its zero value",
-			fields: fields{HistoryItemStatus: &HistoryItemStatus{Color: nil}},
-			want:   "",
-		},
-		{
-			name:   "If Color has a valid value, GetColor should return it",
-			fields: fields{HistoryItemStatus: &HistoryItemStatus{Color: &stringValue}},
-			want:   stringValue,
-		},
-	}
-
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			assert.Equal(t, tt.want, tt.fields.HistoryItemStatus.GetColor())
-		})
-	}
-}
-
-func TestHistoryItemStatus_GetOrderIndex(t *testing.T) {
-	intValue := 1
-
-	type fields struct {
-		HistoryItemStatus *HistoryItemStatus
-	}
-
-	tests := []struct {
-		name   string
-		fields fields
-		want   int
-	}{
-		{
-			name:   "If HistoryItemStatus is nil, GetOrderIndex should return its zero value",
-			fields: fields{HistoryItemStatus: nil},
-			want:   0,
-		},
-		{
-			name:   "If OrderIndex is nil, GetOrderIndex should return its zero value",
-			fields: fields{HistoryItemStatus: &HistoryItemStatus{OrderIndex: nil}},
-			want:   0,
-		},
-		{
-			name:   "If OrderIndex has a valid value, GetOrderIndex should return it",
-			fields: fields{HistoryItemStatus: &HistoryItemStatus{OrderIndex: &intValue}},
-			want:   intValue,
-		},
-	}
-
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			assert.Equal(t, tt.want, tt.fields.HistoryItemStatus.GetOrderIndex())
-		})
-	}
-}
-
-func TestHistoryItemStatus_GetType(t *testing.T) {
-	stringValue := "1"
-
-	type fields struct {
-		HistoryItemStatus *HistoryItemStatus
-	}
-
-	tests := []struct {
-		name   string
-		fields fields
-		want   string
-	}{
-		{
-			name:   "If HistoryItemStatus is nil, GetType should return its zero value",
-			fields: fields{HistoryItemStatus: nil},
-			want:   "",
-		},
-		{
-			name:   "If Type is nil, GetType should return its zero value",
-			fields: fields{HistoryItemStatus: &HistoryItemStatus{Type: nil}},
-			want:   "",
-		},
-		{
-			name:   "If Type has a valid value, GetType should return it",
-			fields: fields{HistoryItemStatus: &HistoryItemStatus{Type: &stringValue}},
-			want:   stringValue,
-		},
-	}
-
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			assert.Equal(t, tt.want, tt.fields.HistoryItemStatus.GetType())
 		})
 	}
 }
