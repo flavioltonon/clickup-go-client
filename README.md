@@ -7,7 +7,7 @@ clickup-go-client is a client for ClickUp's v2 API written in Go.
 #### Managing webhooks
 ```
 func main() {
-	client, err := clickup.NewClient(nil, SetAuthorizationMethod(clickup.NewPersonalTokenAuthorization(PERSONAL_TOKEN)))
+	client, err := clickup.NewClient(nil, clickup.SetAuthorizationMethod(clickup.NewPersonalTokenAuthorization(PERSONAL_TOKEN)))
 	if err != nil {
 		log.Fatal(err)
 	}
