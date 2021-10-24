@@ -1,19 +1,22 @@
 package clickup
 
-import "fmt"
-
+// AuthorizationMethod is the authorization method that should be used for integrations with ClickUp
 type AuthorizationMethod interface {
-	fmt.Stringer
+	// ApplyAuthorization applies the AuthorizationMethod to a given Request
+	ApplyAuthorization(r *Request)
 }
 
+// PersonalTokenAuthorization is an authorization method that uses personal tokens
 type PersonalTokenAuthorization struct {
-	Token string
+	token string
 }
 
+// NewPersonalTokenAuthorization creates a new PersonalTokenAuthorization
 func NewPersonalTokenAuthorization(token string) *PersonalTokenAuthorization {
-	return &PersonalTokenAuthorization{
-		Token: token,
-	}
+	return &PersonalTokenAuthorization{token: token}
 }
 
-func (a *PersonalTokenAuthorization) String() string { return a.Token }
+// ApplyAuthorization applies the AuthorizationMethod to a given Request
+func (a *PersonalTokenAuthorization) ApplyAuthorization(r *Request) {
+	r.SetHeader(header_authorization, a.token)
+}

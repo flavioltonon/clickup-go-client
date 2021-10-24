@@ -1,124 +1,72 @@
 package clickup
 
-import (
-	"net/url"
-	"path"
-	"strconv"
-
-	ozzo "github.com/go-ozzo/ozzo-validation/v4"
-)
-
-// TeamsService is a service to ClickUp teams API
-type TeamsService service
-
+// Team is a ClickUp team
 type Team struct {
-	ID      string  `json:"id"`
-	Name    string  `json:"name"`
-	Color   string  `json:"color"`
-	Avatar  *string `json:"avatar"`
-	Members []struct {
-		User      *User `json:"user"`
-		InvitedBy *User `json:"invited_by"`
-	} `json:"members"`
+	ID      *string       `json:"id"`
+	Name    *string       `json:"name"`
+	Color   *string       `json:"color"`
+	Avatar  *string       `json:"avatar"`
+	Members []*TeamMember `json:"members"`
 }
 
-// ListTeams calls ClickUp teams API to fetch teams the authenticated user belongs to
-func (s *TeamsService) ListTeams() ([]*Team, error) {
-	url := &url.URL{
-		Scheme: "https",
-		Host:   "api.clickup.com",
-		Path:   path.Join("api", "v2", "team"),
+func (t *Team) GetID() string {
+	if t == nil || t.ID == nil {
+		return ""
 	}
 
-	response, err := s.client.Get(url)
-	if err != nil {
-		return nil, err
-	}
-
-	result := new(struct {
-		Teams []*Team `json:"teams"`
-	})
-
-	if err := response.Decode(result); err != nil {
-		return nil, err
-	}
-
-	return result.Teams, nil
+	return *t.ID
 }
 
-// CreateWebhookRequestBody is the request body required for CreateWebhook requests
-type CreateWebhookRequestBody struct {
-	Endpoint string             `json:"endpoint"`
-	Events   []WebhookEventKind `json:"events"`
+func (t *Team) GetName() string {
+	if t == nil || t.Name == nil {
+		return ""
+	}
+
+	return *t.Name
 }
 
-// Validate validates a CreateWebhookRequestBody
-func (b CreateWebhookRequestBody) Validate() error {
-	return ozzo.ValidateStruct(&b,
-		ozzo.Field(&b.Endpoint, ozzo.Required),
-		ozzo.Field(&b.Events, ozzo.Required),
-	)
+func (t *Team) GetColor() string {
+	if t == nil || t.Color == nil {
+		return ""
+	}
+
+	return *t.Color
 }
 
-// CreateWebhook calls ClickUp teams API to create a Webhook with a given set of options
-func (s *TeamsService) CreateWebhook(teamID int, body *CreateWebhookRequestBody) (*Webhook, error) {
-	if err := body.Validate(); err != nil {
-		return nil, err
+func (t *Team) GetAvatar() string {
+	if t == nil || t.Avatar == nil {
+		return ""
 	}
 
-	url := &url.URL{
-		Scheme: "https",
-		Host:   "api.clickup.com",
-		Path:   path.Join("api", "v2", "team", strconv.Itoa(teamID), "webhook"),
-	}
-
-	response, err := s.client.Post(url, body)
-	if err != nil {
-		return nil, err
-	}
-
-	result := new(struct {
-		Webhook *Webhook `json:"webhook"`
-	})
-
-	if err := response.Decode(result); err != nil {
-		return nil, err
-	}
-
-	return result.Webhook, nil
+	return *t.Avatar
 }
 
-// ListWebhooks calls ClickUp teams API to list Webhooks for a given team ID
-func (s *TeamsService) ListWebhooks(teamID int) ([]*Webhook, error) {
-	url := &url.URL{
-		Scheme: "https",
-		Host:   "api.clickup.com",
-		Path:   path.Join("api", "v2", "team", strconv.Itoa(teamID), "webhook"),
+func (t *Team) GetMembers() []*TeamMember {
+	if t == nil {
+		return nil
 	}
 
-	response, err := s.client.Get(url)
-	if err != nil {
-		return nil, err
-	}
-
-	result := new(struct {
-		Webhooks []*Webhook `json:"webhooks"`
-	})
-
-	if err := response.Decode(result); err != nil {
-		return nil, err
-	}
-
-	return result.Webhooks, nil
+	return t.Members
 }
 
-// DeleteWebhook calls ClickUp teams API to delete a Webhook for a given webhook ID
-func (s *TeamsService) DeleteWebhook(webhookID string) error {
-	url := &url.URL{
-		Scheme: "https",
-		Host:   "api.clickup.com",
-		Path:   path.Join("api", "v2", "webhook", webhookID),
+// TeamMember is a team member user
+type TeamMember struct {
+	User      *User `json:"user"`
+	InvitedBy *User `json:"invited_by"`
+}
+
+func (m *TeamMember) GetUser() *User {
+	if m == nil {
+		return nil
 	}
 
-	return s.client.Delete(url)
+	return m.User
+}
+
+func (m *TeamMember) GetInvitedBy() *User {
+	if m == nil {
+		return nil
+	}
+
+	return m.InvitedBy
 }

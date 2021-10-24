@@ -18,5 +18,10 @@ func NewError(statusCode int, message string) error {
 	}
 }
 
-// ErrInvalidRequestSignature is an error that should be returned if a Webhook event request signature is not valid
-var ErrInvalidRequestSignature = errors.New("invalid request signature")
+var (
+	// ErrInvalidRequestBody is an error that should be returned if the body of a request is not valid
+	ErrInvalidRequestBody = errors.New("invalid request body")
+
+	// ErrInvalidRequestSignature is an error that should be returned if a Webhook event request signature is not valid
+	ErrInvalidRequestSignature = errors.New("invalid request signature")
+)

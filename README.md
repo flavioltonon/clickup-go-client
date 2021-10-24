@@ -53,9 +53,16 @@ func main() {
 func main() {
 	router := mux.NewRouter()
 
+	parser := clickup.NewWebhookEventParser(CLICKUP_WEBHOOK_SECRET)
+
 	router.HandleFunc("/webhook", func(rw http.ResponseWriter, r *http.Request) {
-		event, err := clickup.ParseWebhookEvent(r, CLICKUP_WEBHOOK_SECRET)
-		if err != nil {
+		event, err := parser.ParseWebhookEvent(r)
+		if errors.Is(err, ErrInvalidRequestBody) {
+			http.Error(rw, err.Error(), http.StatusBadRequest)
+			return
+		}
+
+		if errors.Is(err, ErrInvalidRequestSignature) {
 			http.Error(rw, err.Error(), http.StatusUnauthorized)
 			return
 		}

@@ -71,14 +71,10 @@ func (c *Client) NewRequest(method string, url *url.URL, body io.Reader) (*Reque
 func (r *Request) SetHeader(key, value string) { r.Header.Set(key, value) }
 
 // SetContentType sets a Content-Type header with a given value in the request
-func (r *Request) SetContentType(contentType string) {
-	r.SetHeader(_contentType.String(), contentType)
-}
+func (r *Request) SetContentType(contentType string) { r.SetHeader(header_contentType, contentType) }
 
 // SetAuthorization sets an Authorization header in the request for a given AuthorizationMethod
-func (r *Request) SetAuthorization(method AuthorizationMethod) {
-	r.SetHeader(_authorization.String(), method.String())
-}
+func (r *Request) SetAuthorization(method AuthorizationMethod) { method.ApplyAuthorization(r) }
 
 // Do sends a given Request and returns a Response. The response body closure is already handled and does not need to be closed.
 func (c *Client) Do(request *Request) (*Response, error) {
