@@ -783,7 +783,7 @@ func TestTask_GetList(t *testing.T) {
 func TestTask_GetFolder(t *testing.T) {
 	stringValue := "1"
 
-	listValue := Folder{
+	folder := Folder{
 		ID: &stringValue,
 	}
 
@@ -808,14 +808,14 @@ func TestTask_GetFolder(t *testing.T) {
 		},
 		{
 			name:   "If Folder has a valid value, GetFolder should return it",
-			fields: fields{Task: &Task{Folder: &listValue}},
-			want:   &listValue,
+			fields: fields{Task: &Task{Folder: &folder}},
+			want:   &folder,
 		},
 	}
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			assert.Equal(t, tt.want, tt.fields.Task.GetList())
+			assert.Equal(t, tt.want, tt.fields.Task.GetFolder())
 		})
 	}
 }
@@ -823,7 +823,7 @@ func TestTask_GetFolder(t *testing.T) {
 func TestTask_GetSpace(t *testing.T) {
 	stringValue := "1"
 
-	listValue := Space{
+	spaceValue := Space{
 		ID: &stringValue,
 	}
 
@@ -848,8 +848,8 @@ func TestTask_GetSpace(t *testing.T) {
 		},
 		{
 			name:   "If Space has a valid value, GetSpace should return it",
-			fields: fields{Task: &Task{Space: &listValue}},
-			want:   &listValue,
+			fields: fields{Task: &Task{Space: &spaceValue}},
+			want:   &spaceValue,
 		},
 	}
 

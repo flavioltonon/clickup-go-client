@@ -114,11 +114,29 @@ func (t *Task) GetCreator() *Creator {
 
 	return t.Creator
 }
-func (t *Task) GetAssignees() []*TaskAssignee { return t.Assignees }
+func (t *Task) GetAssignees() []*TaskAssignee {
+	if t == nil {
+		return nil
+	}
 
-func (t *Task) GetChecklists() []*Checklist { return t.Checklists }
+	return t.Assignees
+}
 
-func (t *Task) GetTags() []*Tag { return t.Tags }
+func (t *Task) GetChecklists() []*Checklist {
+	if t == nil {
+		return nil
+	}
+
+	return t.Checklists
+}
+
+func (t *Task) GetTags() []*Tag {
+	if t == nil {
+		return nil
+	}
+
+	return t.Tags
+}
 
 func (t *Task) GetParent() string {
 	if t == nil || t.Parent == nil {
@@ -168,7 +186,13 @@ func (t *Task) GetTimeSpent() int {
 	return *t.TimeSpent
 }
 
-func (t *Task) GetCustomFields() []*CustomField { return t.CustomFields }
+func (t *Task) GetCustomFields() []*CustomField {
+	if t == nil {
+		return nil
+	}
+
+	return t.CustomFields
+}
 
 func (t *Task) GetList() *List {
 	if t == nil {
