@@ -1,2 +1,5 @@
+check:
+	go vet ./...
+
 tests:
-	go test ./...
+	go test ./... -cover

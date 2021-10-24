@@ -7,6 +7,8 @@ import (
 	"io/ioutil"
 	"net/http"
 	"net/url"
+
+	ozzo "github.com/go-ozzo/ozzo-validation/v4"
 )
 
 // Client is a ClickUp API client
@@ -23,14 +25,34 @@ type service struct {
 	client *Client
 }
 
-// NewClient creates a new Client with a customizable http.Client. If a nil pointer to a http.Client is provided,
+// NewClient creates a new Client with customizable http.Client and options. If a nil pointer to a http.Client is provided,
 // http.DefaultClient will be used instead.
-func NewClient(httpClient *http.Client) (*Client, error) {
+// Also, if no options are provided, the _defaultOptions will be used instead. Although, an AuthorizationMethod will always be
+// required for the requests to the API to be successful.
+//
+// Examples:
+//  client, _ := NewClient(nil) // using http.DefaultClient and _defaultOptions
+//
+//  auth := NewPersonalTokenAuthorization("my_token")
+//  client, _ := NewClient(&http.Client{Timeout: 60 * time.Second}, SetAuthorizationMethod(auth)) // using custom http.Client and options
+func NewClient(httpClient *http.Client, opts ...ClientOptionFunc) (*Client, error) {
 	if httpClient == nil {
 		httpClient = http.DefaultClient
 	}
 
-	c := &Client{client: httpClient, options: _defaultOptions}
+	options := _defaultOptions
+
+	for _, opt := range opts {
+		if err := opt.apply(&options); err != nil {
+			return nil, err
+		}
+	}
+
+	if err := options.Validate(); err != nil {
+		return nil, err
+	}
+
+	c := &Client{client: httpClient, options: options}
 	c.common.client = c
 	c.Tasks = (*TasksService)(&c.common)
 	c.Teams = (*TeamsService)(&c.common)
@@ -39,14 +61,68 @@ func NewClient(httpClient *http.Client) (*Client, error) {
 
 // ClientOptions are options for a Client
 type ClientOptions struct {
-	authorization AuthorizationMethod
+	Authorization AuthorizationMethod
+	APITargeting  *ClientAPITargetingOptions
 }
 
-var _defaultOptions = ClientOptions{}
+// Validate validates a ClientOptions
+func (o ClientOptions) Validate() error {
+	return ozzo.ValidateStruct(&o,
+		ozzo.Field(&o.Authorization, ozzo.Required),
+		ozzo.Field(&o.APITargeting, ozzo.Required),
+	)
+}
 
-// SetAuthorizationMethod sets the client with an authorization method.
-func (c *Client) SetAuthorizationMethod(authorization AuthorizationMethod) {
-	c.options.authorization = authorization
+// ClientAPITargetingOptions are ClientOptions about ClickUp's API
+type ClientAPITargetingOptions struct {
+	Scheme string
+	Host   string
+}
+
+// Validate validates a ClientAPITargetingOptions
+func (o ClientAPITargetingOptions) Validate() error {
+	return ozzo.ValidateStruct(&o,
+		ozzo.Field(&o.Scheme, ozzo.Required),
+		ozzo.Field(&o.Host, ozzo.Required),
+	)
+}
+
+// _defaultOptions are the default options for Clients
+var _defaultOptions = ClientOptions{
+	APITargeting: &ClientAPITargetingOptions{
+		Scheme: "https",
+		Host:   "api.clickup.com",
+	},
+}
+
+// ClientOptionFunc is an option for a Client
+type ClientOptionFunc func(c *ClientOptions) error
+
+// apply applies the ClientOptionFunc to a Client
+func (fn ClientOptionFunc) apply(c *ClientOptions) error { return fn(c) }
+
+// SetAuthorizationMethod sets the client options with an authorization method.
+func SetAuthorizationMethod(authorization AuthorizationMethod) ClientOptionFunc {
+	return func(o *ClientOptions) error {
+		o.Authorization = authorization
+		return nil
+	}
+}
+
+// SetAPIURL sets a new URL to the client options to target ClickUp's API.
+func SetAPIURL(apiURL string) ClientOptionFunc {
+	return func(o *ClientOptions) error {
+		u, err := url.Parse(apiURL)
+		if err != nil {
+			return err
+		}
+
+		o.APITargeting = &ClientAPITargetingOptions{
+			Scheme: u.Scheme,
+			Host:   u.Host,
+		}
+		return nil
+	}
 }
 
 // Request is a request sent to ClickUp's API
@@ -63,7 +139,7 @@ func (c *Client) NewRequest(method string, url *url.URL, body io.Reader) (*Reque
 
 	request := &Request{rawRequest}
 	request.SetContentType("application/json")
-	request.SetAuthorization(c.options.authorization)
+	request.SetAuthorization(c.options.Authorization)
 	return request, nil
 }
 

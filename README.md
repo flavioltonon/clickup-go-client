@@ -1,6 +1,6 @@
 # clickup-go-client
 
-clickup-go-client is a client for ClickUp's API written in Go.
+clickup-go-client is a client for ClickUp's v2 API written in Go.
 
 ### Usage
 

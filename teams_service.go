@@ -14,8 +14,8 @@ type TeamsService service
 // ListTeams calls ClickUp teams API to fetch teams the authenticated user belongs to
 func (s *TeamsService) ListTeams() ([]*Team, error) {
 	url := &url.URL{
-		Scheme: "https",
-		Host:   "api.clickup.com",
+		Scheme: s.client.options.APITargeting.Scheme,
+		Host:   s.client.options.APITargeting.Host,
 		Path:   path.Join("api", "v2", "team"),
 	}
 
@@ -56,8 +56,8 @@ func (s *TeamsService) CreateWebhook(teamID int, body *CreateWebhookRequestBody)
 	}
 
 	url := &url.URL{
-		Scheme: "https",
-		Host:   "api.clickup.com",
+		Scheme: s.client.options.APITargeting.Scheme,
+		Host:   s.client.options.APITargeting.Host,
 		Path:   path.Join("api", "v2", "team", strconv.Itoa(teamID), "webhook"),
 	}
 
@@ -80,8 +80,8 @@ func (s *TeamsService) CreateWebhook(teamID int, body *CreateWebhookRequestBody)
 // ListWebhooks calls ClickUp teams API to list Webhooks for a given team ID
 func (s *TeamsService) ListWebhooks(teamID int) ([]*Webhook, error) {
 	url := &url.URL{
-		Scheme: "https",
-		Host:   "api.clickup.com",
+		Scheme: s.client.options.APITargeting.Scheme,
+		Host:   s.client.options.APITargeting.Host,
 		Path:   path.Join("api", "v2", "team", strconv.Itoa(teamID), "webhook"),
 	}
 
@@ -104,8 +104,8 @@ func (s *TeamsService) ListWebhooks(teamID int) ([]*Webhook, error) {
 // DeleteWebhook calls ClickUp teams API to delete a Webhook for a given webhook ID
 func (s *TeamsService) DeleteWebhook(webhookID string) error {
 	url := &url.URL{
-		Scheme: "https",
-		Host:   "api.clickup.com",
+		Scheme: s.client.options.APITargeting.Scheme,
+		Host:   s.client.options.APITargeting.Host,
 		Path:   path.Join("api", "v2", "webhook", webhookID),
 	}
 
