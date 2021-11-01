@@ -3,7 +3,6 @@ package clickup
 import (
 	"net/url"
 	"path"
-	"strconv"
 
 	ozzo "github.com/go-ozzo/ozzo-validation/v4"
 )
@@ -50,7 +49,7 @@ func (b CreateWebhookRequestBody) Validate() error {
 }
 
 // CreateWebhook calls ClickUp teams API to create a Webhook with a given set of options
-func (s *TeamsService) CreateWebhook(teamID int, body *CreateWebhookRequestBody) (*Webhook, error) {
+func (s *TeamsService) CreateWebhook(teamID string, body *CreateWebhookRequestBody) (*Webhook, error) {
 	if err := body.Validate(); err != nil {
 		return nil, err
 	}
@@ -58,7 +57,7 @@ func (s *TeamsService) CreateWebhook(teamID int, body *CreateWebhookRequestBody)
 	url := &url.URL{
 		Scheme: s.client.options.APITargeting.Scheme,
 		Host:   s.client.options.APITargeting.Host,
-		Path:   path.Join("api", "v2", "team", strconv.Itoa(teamID), "webhook"),
+		Path:   path.Join("api", "v2", "team", teamID, "webhook"),
 	}
 
 	response, err := s.client.Post(url, body)
@@ -78,11 +77,11 @@ func (s *TeamsService) CreateWebhook(teamID int, body *CreateWebhookRequestBody)
 }
 
 // ListWebhooks calls ClickUp teams API to list Webhooks for a given team ID
-func (s *TeamsService) ListWebhooks(teamID int) ([]*Webhook, error) {
+func (s *TeamsService) ListWebhooks(teamID string) ([]*Webhook, error) {
 	url := &url.URL{
 		Scheme: s.client.options.APITargeting.Scheme,
 		Host:   s.client.options.APITargeting.Host,
-		Path:   path.Join("api", "v2", "team", strconv.Itoa(teamID), "webhook"),
+		Path:   path.Join("api", "v2", "team", teamID, "webhook"),
 	}
 
 	response, err := s.client.Get(url)
