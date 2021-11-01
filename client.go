@@ -109,6 +109,14 @@ func SetAuthorizationMethod(authorization AuthorizationMethod) ClientOptionFunc 
 	}
 }
 
+// SetPersonalTokenAuthorization sets the client options with a personal token authorization method.
+func SetPersonalTokenAuthorization(token string) ClientOptionFunc {
+	return func(o *ClientOptions) error {
+		o.Authorization = NewPersonalTokenAuthorization(token)
+		return nil
+	}
+}
+
 // SetAPIURL sets a new URL to the client options to target ClickUp's API.
 func SetAPIURL(apiURL string) ClientOptionFunc {
 	return func(o *ClientOptions) error {
