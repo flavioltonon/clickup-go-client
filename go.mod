@@ -1,4 +1,4 @@
-module clickup
+module github.com/flavioltonon/clickup-go-client
 
 go 1.17
 
